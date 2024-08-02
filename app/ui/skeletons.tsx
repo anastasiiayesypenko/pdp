@@ -102,7 +102,11 @@ export default function DashboardSkeleton() {
   );
 }
 
-export function TableRowSkeleton() {
+export function TableRowSkeleton({
+  hasEditableRows,
+}: {
+  hasEditableRows?: boolean;
+}) {
   return (
     <tr className="w-full border-b border-gray-100 last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
       {/* Customer Name and Image */}
@@ -129,12 +133,14 @@ export function TableRowSkeleton() {
         <div className="h-6 w-16 rounded bg-gray-100"></div>
       </td>
       {/* Actions */}
-      <td className="whitespace-nowrap py-3 pl-6 pr-3">
-        <div className="flex justify-end gap-3">
-          <div className="h-[38px] w-[38px] rounded bg-gray-100"></div>
-          <div className="h-[38px] w-[38px] rounded bg-gray-100"></div>
-        </div>
-      </td>
+      {hasEditableRows && (
+        <td className="whitespace-nowrap py-3 pl-6 pr-3">
+          <div className="flex justify-end gap-3">
+            <div className="h-[38px] w-[38px] rounded bg-gray-100"></div>
+            <div className="h-[38px] w-[38px] rounded bg-gray-100"></div>
+          </div>
+        </td>
+      )}
     </tr>
   );
 }
@@ -163,7 +169,13 @@ export function InvoicesMobileSkeleton() {
   );
 }
 
-export function InvoicesTableSkeleton() {
+export function TableSkeleton({
+  headerColumns = [],
+  hasEditableRows = false,
+}: {
+  headerColumns?: { title: string; className: string }[];
+  hasEditableRows?: boolean;
+}) {
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
@@ -179,36 +191,28 @@ export function InvoicesTableSkeleton() {
           <table className="hidden min-w-full text-gray-900 md:table">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
-                <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                  Customer
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Email
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Amount
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Date
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Status
-                </th>
-                <th
-                  scope="col"
-                  className="relative pb-4 pl-3 pr-6 pt-2 sm:pr-6"
-                >
-                  <span className="sr-only">Edit</span>
-                </th>
+                {headerColumns.map(({ title, className }) => (
+                  <th key={title} scope="col" className={className}>
+                    {title}
+                  </th>
+                ))}
+                {hasEditableRows && (
+                  <th
+                    scope="col"
+                    className="relative pb-4 pl-3 pr-6 pt-2 sm:pr-6"
+                  >
+                    <span className="sr-only">Edit</span>
+                  </th>
+                )}
               </tr>
             </thead>
             <tbody className="bg-white">
-              <TableRowSkeleton />
-              <TableRowSkeleton />
-              <TableRowSkeleton />
-              <TableRowSkeleton />
-              <TableRowSkeleton />
-              <TableRowSkeleton />
+              <TableRowSkeleton hasEditableRows={hasEditableRows} />
+              <TableRowSkeleton hasEditableRows={hasEditableRows} />
+              <TableRowSkeleton hasEditableRows={hasEditableRows} />
+              <TableRowSkeleton hasEditableRows={hasEditableRows} />
+              <TableRowSkeleton hasEditableRows={hasEditableRows} />
+              <TableRowSkeleton hasEditableRows={hasEditableRows} />
             </tbody>
           </table>
         </div>
