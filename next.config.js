@@ -2,7 +2,7 @@
 
 const nextConfig = {
   experimental: {
-    ppr: 'incremental',
+    // ppr: 'incremental', Remove cause of Vercel platform internal bug
   },
 };
 
